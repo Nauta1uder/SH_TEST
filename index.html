@@ -230,7 +230,7 @@
       {"id":"et5","label":"ET5 / ET5T","short":"ET5 / ET5T","note":"全车玻璃均包含"},
       {"id":"es6","label":"ES6 / EC6","short":"ES6 / EC6","note":"全车玻璃均包含"},
       {"id":"es8_lux","label":"ES8 豪华版","short":"ES8","badge":"豪华版","note":"二、三排全贴"},
-      {"id":"es8_sig","label":"ES8 签名版","short":"ES8","badge":"签名版","note":"二、三排不贴"},
+      {"id":"es8_sig","label":"ES8 签名版","short":"ES8","badge":"签名版","note":"二、三排全贴","pkgNote":"二、三排不贴"},
       {"id":"es9_lux","label":"ES9 豪华版","short":"ES9","badge":"豪华版","note":"二、三排全贴"},
       {"id":"es9_sig","label":"ES9 签名版","short":"ES9","badge":"签名版","note":"二、三排不贴"}
     ],
@@ -293,7 +293,7 @@
     }
     function renderTable(){
       const model=DATA.models.find(x=>x.id===modelId),rows=DATA[tab][modelId];
-      document.getElementById('currentModel').textContent=model.label;document.getElementById('modelNote').textContent=model.note||'';
+      document.getElementById('currentModel').textContent=model.label;document.getElementById('modelNote').textContent=(tab==='packages'&&model.pkgNote)?model.pkgNote:(model.note||'');
       body.innerHTML=rows.map(r=>{const [name,desc,orig,coupon,points,final,reco]=r;return `<tr class="selectable ${selectedPlan===name?'selected':''}" data-name="${name}"><td><div class="product-name">${name}${reco?'<span class="recommended">推荐</span>':''}</div><div class="desc">${desc}</div></td><td class="money">${money(orig)}</td><td class="money">${coupon?money(coupon):'—'}</td><td class="money">${money(points)}</td><td class="money"><div class="final">${money(final)}</div><div class="save">立省 ${money(orig-final)}</div></td></tr>`}).join('');
       body.querySelectorAll('tr.selectable').forEach(tr=>tr.onclick=()=>{selectedPlan=tr.dataset.name;renderTable()});
       const reco=rows.find(r=>r[6])||rows[0];
